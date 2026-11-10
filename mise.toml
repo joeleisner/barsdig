@@ -1,0 +1,44 @@
+[tools]
+go = "1.27.3"
+
+[env]
+CGO_ENABLED = "0"
+
+[tasks.build]
+description = "Build the static barsdig binary"
+run = "go build -o barsdig ./cmd/barsdig"
+
+[tasks.test]
+description = "Run all tests"
+run = "go test ./..."
+
+[tasks.vet]
+description = "go vet + gofmt check"
+run = '''
+go vet ./...
+test -z "$(gofmt -l .)" || { gofmt -l .; echo "gofmt needed"; exit 1; }
+'''
+
+[tasks.fuzz]
+description = "Fuzz the parsers and muxer briefly (FUZZTIME, default 20s each)"
+run = '''
+go test ./internal/bars -run xxx -fuzz FuzzParse -fuzztime ${FUZZTIME:-20s}
+go test ./internal/bwav -run xxx -fuzz FuzzBWAV -fuzztime ${FUZZTIME:-20s}
+go test ./internal/ogg -run xxx -fuzz FuzzWriteOpus -fuzztime ${FUZZTIME:-20s}
+'''
+
+[tasks.cross]
+description = "Cross-compile for linux, macOS and Windows"
+run = '''
+for t in linux/amd64 darwin/arm64 windows/amd64; do
+  GOOS=${t%/*} GOARCH=${t#*/} go build -o /dev/null ./cmd/barsdig && echo "ok $t"
+done
+'''
+
+[tasks.acceptance]
+description = "Run the acceptance test against your own RomFS (set BARSDIG_TEST_ROMFS)"
+run = "go test ./internal/acceptance -v"
+
+[tasks.check]
+description = "vet + test"
+depends = ["vet", "test"]

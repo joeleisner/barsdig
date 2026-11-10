@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>barsdig</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>barsdig</h1>
+  <label class="search">
+    <span class="sr">Search cues</span>
+    <input id="q" type="search" placeholder="Search cue or bank, for example: footstep stone" autocomplete="off" autofocus>
+  </label>
+  <p id="count" class="count" aria-live="polite"></p>
+</header>
+
+<form class="filters" id="filters" onsubmit="return false">
+  <label>Bank <input id="f-bank" list="banks" placeholder="any" autocomplete="off"></label>
+  <datalist id="banks"></datalist>
+  <label>Codec <select id="f-codec"><option value="">any</option></select></label>
+  <label>Channels <select id="f-ch"><option value="">any</option></select></label>
+  <label>Length <input id="f-min" class="num" inputmode="decimal" placeholder="min s"> to <input id="f-max" class="num" inputmode="decimal" placeholder="max s"></label>
+  <label class="check"><input id="f-loop" type="checkbox"> Loops only</label>
+  <label>Sort
+    <select id="f-sort">
+      <option value="name">Name</option>
+      <option value="bank">Bank</option>
+      <option value="duration">Length</option>
+      <option value="codec">Codec</option>
+      <option value="channels">Channels</option>
+    </select>
+  </label>
+  <label class="check"><input id="f-desc" type="checkbox"> Descending</label>
+</form>
+
+<main>
+  <section id="results" class="results" aria-label="Cues">
+    <table>
+      <thead><tr><th class="c-play"><span class="sr">Play</span></th><th class="c-mark"><span class="sr">Mark for export</span></th><th>Cue</th><th>Bank</th><th>Codec</th><th class="r">Length</th><th class="r">Ch</th><th>Notes</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p id="empty" class="empty" hidden>No cues match. Clear a filter or try a shorter search.</p>
+    <div id="sentinel" aria-hidden="true"></div>
+  </section>
+
+  <aside id="basket" class="basket" aria-label="Export basket">
+    <div class="basket-head">
+      <h2>Basket <span id="basket-count">0</span></h2>
+      <button id="basket-clear" type="button" class="link" disabled>Clear</button>
+    </div>
+    <ul id="basket-list"></ul>
+    <p id="basket-empty" class="hint">Tick the box beside a cue to add it here.</p>
+    <button id="export" type="button" class="primary" disabled>Export to disk</button>
+    <div id="export-out" class="export-out" aria-live="polite"></div>
+  </aside>
+</main>
+
+<footer class="player" id="player">
+  <div class="now">
+    <button id="toggle" type="button" class="round" aria-label="Play" disabled><span id="toggle-icon" aria-hidden="true">&#9654;</span></button>
+    <div class="now-text">
+      <strong id="now-name">Nothing playing</strong>
+      <span id="now-meta" class="muted">Pick a cue to listen.</span>
+    </div>
+  </div>
+  <div id="wave" class="wave" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0">
+    <canvas id="wave-canvas"></canvas>
+    <div id="wave-loop" class="wave-loop" hidden></div>
+    <div id="wave-played" class="wave-played"><canvas id="wave-canvas-played"></canvas></div>
+    <div id="wave-head" class="wave-head"></div>
+  </div>
+  <div class="clock">
+    <output id="time">0:00 / 0:00</output>
+    <label class="vol">Volume <input id="vol" type="range" min="0" max="1" step="0.01" value="1"></label>
+  </div>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+</footer>
+<audio id="audio" preload="auto"></audio>
+<script src="/static/app.js"></script>
+</body>
+</html>

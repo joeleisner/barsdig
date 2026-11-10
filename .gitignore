@@ -1,0 +1,9 @@
+/barsdig
+/dist/
+*.bars
+*.bars.zs
+*.bwav
+*.wav
+*.opus
+.superpowers/
+/barsdig-export/
