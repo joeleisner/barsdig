@@ -3,6 +3,10 @@
 Dig through the audio in an extracted game RomFS: catalog every `BARS`/`BWAV` cue, search and audition them in a local web
 page, mark what you want, and export it as `.wav` (or `.opus`) with a JSON sidecar. One static binary, no dependencies.
 
+![The barsdig web UI: a searchable list of cues with a basket and a waveform player](docs/screenshot.png)
+
+<sub>Screenshot of the synthetic demo data from `mise run demo`; no game audio is shown.</sub>
+
 > **Not affiliated with Nintendo.** barsdig is an independent, unofficial tool. Nintendo, Nintendo Switch and any game names are
 > trademarks of their respective owners and are mentioned only to describe the file formats the tool reads.
 >
@@ -50,6 +54,7 @@ Opus is played in the browser and exported as `.opus`; convert it with `ffmpeg` 
     mise run check        # vet, gofmt, tests
     mise run fuzz         # brief fuzzing of the parsers and muxer
     mise run cross        # cross-compile for Linux, macOS and Windows
+    mise run demo         # generate a synthetic RomFS (made-up cues, synthesized audio) and serve it
 
 `BARSDIG_TEST_ROMFS=/path/to/your/romfs mise run acceptance` runs extra checks against a RomFS of your own (nothing from it is
 stored). Format notes: [docs/format.md](docs/format.md), [docs/opus.md](docs/opus.md).

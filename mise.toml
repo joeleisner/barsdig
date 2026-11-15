@@ -42,3 +42,11 @@ run = "go test ./internal/acceptance -v"
 [tasks.check]
 description = "vet + test"
 depends = ["vet", "test"]
+
+[tasks.demo]
+description = "Generate a synthetic demo RomFS (no game data) and serve it, for screenshots"
+run = '''
+test -d demo-romfs || go run ./tools/demoromfs -out demo-romfs
+go build -o barsdig ./cmd/barsdig
+./barsdig serve --cache-dir "" demo-romfs
+'''
