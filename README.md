@@ -17,10 +17,10 @@ page, mark what you want, and export it as `.wav` (or `.opus`) with a JSON sidec
 
 ## Install
 
-Download the archive for your system from the [Releases](../../releases) page and unpack it.
+Download the archive for your system from the [Releases](https://github.com/joeleisner/barsdig/releases) page and unpack it.
 
     sha256sum -c checksums.txt --ignore-missing                  # verify the download
-    gh attestation verify barsdig_*_linux_amd64.tar.gz -R <owner>/<repo>   # optional: verify build provenance
+    gh attestation verify barsdig_*_linux_amd64.tar.gz -R joeleisner/barsdig   # optional: verify build provenance
 
 Binaries are unsigned. On macOS, clear the quarantine flag once (`xattr -d com.apple.quarantine ./barsdig`); on Windows,
 SmartScreen may warn about an unrecognised app.
